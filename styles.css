@@ -13,12 +13,12 @@ body {
  **********************************************/
 
 .container {
-  width: 50%;
-  max-width: 895px;
+  width: 895px;
   height: 546px;
-  background-color: aqua;
+  background-color: #ffffff;
   border-radius: 1.25%;
   overflow: hidden;
+  display: flex;
 }
 
 /**********************************************
@@ -26,7 +26,7 @@ body {
  **********************************************/
 
 .left-side {
-  width: 428px;
+  width: 47%;
   height: 100%;
   position: relative;
 }
@@ -115,6 +115,209 @@ body {
  **********************************************/
 
 .right-side {
-  flex: 1;
+  width: 53%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
+}
+
+.login-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/*---------------------------------------------
+|               원 광원효과                    |
+---------------------------------------------*/
+
+.gradient-bg-red,
+.gradient-bg-blue,
+.gradient-bg-sky {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: 0;
+}
+
+.gradient-bg-red {
+  background: radial-gradient(circle, rgba(255, 0, 0, 1), rgba(255, 0, 0, 0));
+  top: 40px;
+  right: 40px;
+}
+
+.gradient-bg-blue {
+  background: radial-gradient(circle, rgba(0, 0, 255, 1), rgba(0, 0, 255, 0));
+  top: 120px;
+  right: 20px;
+}
+.gradient-bg-sky {
+  background: radial-gradient(circle, rgba(0, 255, 255, 1), rgba(0, 0, 255, 0));
+  left: -10px;
+  bottom: 20px;
+}
+
+/*---------------------------------------------
+|                로그인 헤더                   |
+---------------------------------------------*/
+
+.login-form-header {
+  margin-bottom: 40px;
+  align-self: flex-start;
+  margin-left: 20px;
+}
+
+.login-form-header h2 {
+  font-size: x-large;
+  font-weight: bold;
+  color: #2b2b2b;
+  margin-bottom: 5px;
+}
+
+.login-form-header p {
+  font-size: small;
+  font-weight: bold;
+  color: #939393;
+}
+
+/*---------------------------------------------
+|                폼 input                     | 
+---------------------------------------------*/
+
+.input-container {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-container label {
+  position: absolute;
+  top: -10px;
+  left: 25px;
+  background-color: white;
+  padding: 0 5px;
+  color: #888;
+}
+
+.input-container input {
+  width: 250px;
+  padding: 13px 15px 13px 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  left: -50%;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.input-container label.focused {
+  color: #66afe9;
+}
+
+/*---------------------------------------------
+|                옵션박스                      |
+---------------------------------------------*/
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.options-checkbox {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.options-checkbox input[type="checkbox"] {
+  border: 1px solid #ccc;
+  transform: scale(1.2);
+  margin-top: 7px;
+}
+
+.options-checkbox p {
+  color: #2b2b2b;
+  font-weight: bold;
+  font-size: small;
+}
+
+.options a {
+  color: #2b2b2b;
+  font-weight: bold;
+  font-size: small;
+  text-decoration: none;
+}
+
+/*---------------------------------------------
+|                로그인 버튼                   |
+---------------------------------------------*/
+
+.button-container button {
+  width: 100%;
+  padding: 13px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #d3d3d3;
+  margin: 10px 0;
+  background-color: #222222;
+}
+
+.sign-in-google {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.button-container img {
+  width: 30px;
+  position: absolute;
+  margin-top: 40px;
+  left: 20px;
+  z-index: 10;
+}
+
+.sign-in-google button {
+  background-color: #ffffff;
+  border: 1px solid #222222;
+  opacity: 0.8;
+  color: #222222;
+  margin-top: 50px;
+}
+
+/*---------------------------------------------
+|         회원가입, 계정찾기 링크               |
+---------------------------------------------*/
+
+.signup-link-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-size: small;
+  text-align: center;
+}
+
+.signup-link-container > p {
+  margin-right: 10px;
+}
+
+.signup-link-container p:nth-child(1) {
+  color: #292727;
+}
+
+.signup-link-container p:nth-child(2) {
+  color: #292727;
+  font-weight: bold;
 }

@@ -37,7 +37,69 @@
           </div>
         </div>
       </div>
-      <div class="right-side"></div>
+      <div class="right-side">
+        <div class="gradient-bg-red"></div>
+        <div class="gradient-bg-blue"></div>
+        <div class="gradient-bg-sky"></div>
+        <div class="login-container">
+          <div class="login-form-header">
+            <h2>Welcome Back</h2>
+            <p>Please enter your informations</p>
+          </div>
+          <form action="/" method="post">
+            <div class="input-container">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="Name" />
+            </div>
+            <div class="input-container">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+              />
+            </div>
+            <div class="options">
+              <div class="options-checkbox">
+                <input type="checkbox" name="remember_me" />
+                <p>Remember me</p>
+              </div>
+              <a href="#">Forgot Password</a>
+            </div>
+            <div class="button-container">
+              <button type="submit">Login</button>
+            </div>
+            <div class="button-container sign-in-google">
+              <img src="images/logo_google.png" />
+              <button>Sign in with Google</button>
+            </div>
+            <div class="signup-link-container">
+              <p>Don't have an account?</p>
+              <p>Sign up for free :)</p>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var inputs = document.querySelectorAll(".input-container input");
+
+        inputs.forEach(function (input) {
+          var label = input.previousElementSibling;
+
+          input.addEventListener("focus", function () {
+            label.classList.add("focused");
+          });
+
+          input.addEventListener("blur", function () {
+            if (!input.value) {
+              label.classList.remove("focused");
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

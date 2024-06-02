@@ -1,0 +1,120 @@
+@import "reset.css";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+/**********************************************
+ *                전체 레이아웃                *
+ **********************************************/
+
+.container {
+  width: 50%;
+  max-width: 895px;
+  height: 546px;
+  background-color: aqua;
+  border-radius: 1.25%;
+  overflow: hidden;
+}
+
+/**********************************************
+ *                 왼쪽 화면                   *
+ **********************************************/
+
+.left-side {
+  width: 428px;
+  height: 100%;
+  position: relative;
+}
+
+.image-container {
+  height: 100%;
+  position: relative;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.art-details {
+  position: absolute;
+  width: 360px;
+  height: 70px;
+  border-radius: 5px;
+  bottom: 10%;
+  backdrop-filter: blur(2px);
+
+  /* 중앙정렬 */
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.art-description {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  margin-left: 5%;
+  font-weight: bold;
+  color: #483f52;
+}
+
+.art-description > h3 {
+  font-size: large;
+}
+
+.art-description > p {
+  font-size: small;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.navigation {
+  position: absolute;
+  width: 100%;
+  height: 10%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigation-icons {
+  display: flex;
+  gap: 8px;
+  color: #1265ce;
+}
+
+.previous-arrow,
+.next-arrow {
+  font-size: 10px;
+}
+
+.position-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ede9d8;
+  font-size: 8px;
+  gap: 5px;
+}
+
+.fa-circle {
+  text-align: center;
+}
+
+.fa-circle.selected {
+  color: #1265ce;
+}
+/**********************************************
+ *                 오른쪽 화면                 *
+ **********************************************/
+
+.right-side {
+  flex: 1;
+  position: relative;
+}

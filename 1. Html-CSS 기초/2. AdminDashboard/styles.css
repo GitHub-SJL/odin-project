@@ -1,19 +1,144 @@
 body {
   height: 100vh;
-  background-color: #e2e8f0;
+  background-color: #f0f0f0;
+  display: grid;
+  place-items: center;
 }
 
 .container {
-  width: 100%;
+  width: 70%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 4fr;
   grid-template-rows: 1fr 5fr;
 }
+
+/*---------------------------------------------
+|                    Header                   |
+---------------------------------------------*/
 
 .header {
   background-color: #ffffff;
   grid-column: 2 / 3;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-template-rows: 50% 50%;
+}
+
+/* Search */
+.header .search-container {
+  grid-column: 1 / 2;
+  display: grid;
+  grid-template-columns: 10% 90%;
+}
+
+.header .search-container i {
+  align-self: center;
+  justify-self: end;
+  margin-right: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.header .search-container input {
+  align-self: center;
+  justify-self: start;
+  grid-template-columns: 2 / 3;
+  padding: 1% 1% 1% 3%;
+  background-color: #e2e8f0;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  width: 90%;
+  font-size: 16px;
+}
+
+.header .search-container input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(25, 146, 212, 1);
+}
+
+/* User Profile */
+.header .user-profile-container {
+  grid-column: 2 / 3;
+  display: grid;
+  grid-template-columns: 40% 20% 30%;
+}
+
+.user-profile-container .user-profile-alarm {
+  align-self: center;
+  justify-self: end;
+  grid-column: 1 / 2;
+  font-size: 1.5rem;
+}
+
+.user-profile-container .user-avatar {
+  align-self: center;
+  justify-self: center;
+  grid-column: 2 / 3;
+}
+.user-avatar img {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.user-profile-container .user-name {
+  align-self: center;
+  justify-self: start;
+  grid-column: 3 / 4;
+}
+
+.user-name h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.user-profile .user-avatar {
+  grid-column: 1/ 2;
+}
+
+/* User Info */
+
+.user-info-container {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  align-items: center;
+}
+
+.user-info-container .user-avatar {
+  justify-self: end;
+  margin-right: 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.user-info-container .user-avatar img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.user-info-container .user-name p {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+/* Action Button */
+
+.action-buttons-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+}
+
+.action-buttons-container button {
+  border: none;
+  padding: 1rem;
+  background-color: #1992d4;
+  border-radius: 1.5rem;
+  width: 6rem;
+  color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .nav {

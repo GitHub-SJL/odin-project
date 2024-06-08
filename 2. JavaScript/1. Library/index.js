@@ -23,7 +23,14 @@ function displayBooks(books) {
         <p>제목: ${book.title}</P>
         <p>저자: ${book.author}</p>
         <p>페이지수: ${book.pages}</p>
-        <p>상태: ${book.read ? "읽음" : "안읽음"}
+        <button id="toggleButton" class="toggle-button ${
+          book.read ? "read-complete" : ""
+        }" onClick ="toggleButton(${index})"> ${
+      book.read ? "다 봄!" : "아직 안봄!"
+    }</button>
+       <button id="deleteButton" class="delete-button" onclick="removeBook(${index})">
+          삭제
+        </button>
         `;
 
     bookList.appendChild(card);
@@ -49,7 +56,18 @@ bookForm.addEventListener("submit", (e) => {
   bookForm.reset();
 });
 
-// Book 삭제
+// 도서 제거
+function removeBook(index) {
+    myLibrary.splice(index, 1);
+    displayBooks();
+  }
+  
+
+// 읽음 토글
+function toggleButton(index) {
+  myLibrary[index].read = !myLibrary[index].read;
+  displayBooks();
+}
 
 // 모달창 제어
 newBookBtn.addEventListener("click", () => {

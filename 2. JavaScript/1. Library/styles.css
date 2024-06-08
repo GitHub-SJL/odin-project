@@ -52,6 +52,12 @@ body {
   margin-top: 20px;
 }
 
+@media screen and (max-width: 600px) {
+  .book-lists {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
 .book-lists .book-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -72,6 +78,11 @@ body {
 
 .book-card p {
   font-weight: bold;
+  margin: 5px 0;
+  font-size: 16px;
+}
+.book-card p:first-child {
+  margin-top: 10px;
 }
 
 /**********************************************
@@ -97,6 +108,12 @@ body {
   border: 1px solid #888;
   border-radius: 5px;
   width: 20%;
+}
+
+@media screen and (max-width: 600px) {
+  .modal-content {
+    width: 80%; /* 화면 폭의 80%로 변경 */
+  }
 }
 
 .modal-header {
@@ -191,8 +208,8 @@ body {
 }
 
 #book-form input[type="submit"] {
-  width: 40%;
-  padding: 10px 20px;
+  width: auto;
+  padding: 10px 15px;
   margin-top: 20px;
   cursor: pointer;
   background-color: #615efc;
@@ -207,4 +224,40 @@ body {
 
 #book-form label {
   font-weight: bold;
+}
+
+/*---------------------------------------------
+|                읽음,삭제 버튼                |
+---------------------------------------------*/
+
+.toggle-button,
+.delete-button {
+  background-color: #615efc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background-color: #7e8ef1;
+}
+
+.read-complete {
+  background-color: #cfcdcd;
+  color: #333;
+  font-weight: bold;
+}
+
+.read-complete:hover {
+  background-color: #cecbcb;
+}
+
+.delete-button {
+  background-color: #ff5580;
+}
+
+.delete-button:hover {
+  background-color: #ff0080;
 }

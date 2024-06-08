@@ -44,6 +44,17 @@ body {
  *                 Book Lists                 *
  **********************************************/
 
+.book-lists:empty::before {
+  content: "책 목록이 비어있습니다.";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
 .book-lists {
   width: 60%;
   display: grid;

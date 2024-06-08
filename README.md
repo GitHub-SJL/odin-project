@@ -7,3 +7,8 @@
 - HTML, CSS를 활용하여 로그인 폼 구성
 ### 1-2 AdminDashboard
 - Grid를 활용하여 대시보드 디자인을 만들기
+
+## 2. JavaScript (project 2)
+
+### 2-1 Library
+- 도서 목록을 추가, 제거, 읽은 상태를 변경할 수 있는 어플리케이션을 구현

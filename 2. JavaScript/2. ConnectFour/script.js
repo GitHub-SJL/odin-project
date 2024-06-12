@@ -33,6 +33,63 @@ function GameBoard() {
     board[lowesRow][column].addToken(player);
   };
 
+  const checkWin = (player) => {
+    const token = player.token;
+
+    // 승리 조건 수평 체크
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < columns - 4; col++) {
+        if (
+          board[row][col].getValue() === token &&
+          board[row][col + 1].getValue() === token &&
+          board[row][col + 2].getValue() === token &&
+          board[row][col + 3].getValue() === token
+        )
+          return true;
+      }
+    }
+
+    // 승리 조건 수직 체크
+    for (let col = 0; col < columns; col++) {
+      for (let row = 0; row <= rows - 4; row++) {
+        if (
+          board[row][col].getValue() === token &&
+          board[row + 1][col].getValue() === token &&
+          board[row + 2][col].getValue() === token &&
+          board[row + 3][col].getValue() === token
+        )
+          return true;
+      }
+    }
+
+    // 승리 조건 대각선 체크 (왼쪽 상단에서 오른쪽 하단)
+    for (let row = 0; row <= rows - 4; row++) {
+      for (let col = 0; col <= columns - 4; col++) {
+        if (
+          board[row][col].getValue() === token &&
+          board[row + 1][col + 1].getValue() === token &&
+          board[row + 2][col + 2].getValue() === token &&
+          board[row + 3][col + 3].getValue() === token
+        )
+          return true;
+      }
+    }
+    // 승리 조건 대각선 체크 (왼쪽 하단 에서 오른쪽 상단)
+    for (let row = 3; row < rows; row++) {
+      for (let col = 0; col <= columns - 4; col++) {
+        if (
+          board[row][col].getValue() === token &&
+          board[row - 1][col + 1].getValue() === token &&
+          board[row - 2][col + 2].getValue() === token &&
+          board[row - 3][col + 3].getValue() === token
+        )
+          return true;
+      }
+    }
+
+    return false;
+  };
+
   // 이 메서드는 보드를 콘솔에 출력하는 데 사용됩니다.
   // 플레이할 때 각 턴 후에 보드가 어떻게 생겼는지 보는 것이 도움이 되지만,
   // UI를 구축한 후에는 필요하지 않습니다.
@@ -43,7 +100,7 @@ function GameBoard() {
 
     console.log(boardWithCellValues);
   };
-  return { getBoard, dropToken, printBoard };
+  return { getBoard, dropToken, checkWin, printBoard };
 }
 
 /*
@@ -99,6 +156,11 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 
     board.dropToken(column, getActivePlayer().token);
 
+    if (board.checkWin(getActivePlayer())) {
+      console.log(`${getActivePlayer().name}이 승리했습니다!`);
+      return;
+    }
+
     switchPlayerTurn();
     printNewRound();
   };
@@ -111,5 +173,12 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 
 const game = GameController();
 
-game.playRound(0); // Player One이 1열에 마커를 놓습니다.
-game.playRound(0); // Player Two가 1열에 마커를 놓습니다.
+game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
+game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
+game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
+game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
+game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
+game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
+game.playRound(0); // Player 1이 1열에 마커를 놓습니다. 이로 인해 Player 1이 승리합니다.
+
+

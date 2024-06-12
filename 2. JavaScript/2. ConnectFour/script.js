@@ -109,7 +109,6 @@ function GameBoard() {
  ** 1: 플레이어 1의 토큰,
  ** 2: 플레이어 2의 토큰
  */
-
 function Cell() {
   let value = 0;
 
@@ -168,17 +167,53 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
   // 초기 게임 시작 메시지
   printNewRound();
 
-  return { playRound, getActivePlayer };
+  return {
+    playRound,
+    getActivePlayer,
+    getBoard: board.getBoard,
+  };
 }
 
-const game = GameController();
+function ScreenController() {
+  const game = GameController();
+  const playerTurnDiv = document.querySelector(".turn");
+  const boardDiv = document.querySelector(".board");
 
-game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
-game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
-game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
-game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
-game.playRound(0); // Player 1이 1열에 마커를 놓습니다.
-game.playRound(1); // Player 2가 2열에 마커를 놓습니다.
-game.playRound(0); // Player 1이 1열에 마커를 놓습니다. 이로 인해 Player 1이 승리합니다.
+  const updateScreen = () => {
+    // board 초기화
+    boardDiv.textContent = "";
 
+    // 새로운 board와 player 턴을 가져오기
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
 
+    // player 턴 표시
+    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+
+    // board 랜더
+    board.forEach((row) => {
+      row.forEach((cell, index) => {
+        const cellButton = document.createElement("button");
+        cellButton.classList.add("cell");
+        cellButton.dataset.column = index;
+        cellButton.textContent = cell.getValue();
+        boardDiv.appendChild(cellButton);
+      });
+    });
+  };
+
+  function clickHandlerBoard(e) {
+    const selectedColumn = e.target.dataset.column;
+
+    if (!selectedColumn) return;
+
+    game.playRound(selectedColumn);
+    updateScreen();
+  }
+
+  boardDiv.addEventListener("click", clickHandlerBoard);
+
+  updateScreen();
+}
+
+ScreenController();

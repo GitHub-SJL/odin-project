@@ -111,7 +111,6 @@ function GameBoard() {
       row.map((cell) => cell.getValue())
     );
 
-    console.log(boardWithCellValues);
   };
 
   return { getBoard, dropToken, checkWin, printBoard };
@@ -147,13 +146,10 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 
   const printNewRound = () => {
     board.printBoard();
-    console.log(`${getActivePlayer().name}'s turn`);
   };
 
   const playRound = (column) => {
-    console.log(
-      `${getActivePlayer().name}의 토큰이 ${column}열에 떨어집니다...`
-    );
+ 
 
     const droppedTokenPosition = board.dropToken(
       column,
@@ -162,7 +158,6 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
     const winPositions = board.checkWin(getActivePlayer());
 
     if (winPositions) {
-      console.log(`${getActivePlayer().name}이 승리했습니다!`);
       return { winner: getActivePlayer().name, winPositions };
     }
 
@@ -226,6 +221,7 @@ function ScreenController() {
             }
           });
         }
+
         boardDiv.appendChild(cellButton);
       });
     });

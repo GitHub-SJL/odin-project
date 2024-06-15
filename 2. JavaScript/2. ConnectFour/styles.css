@@ -46,6 +46,22 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
+@keyframes winPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5); 
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(128, 0, 128, 1); 
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5); 
+  }
+}
+
+.win-highlight {
+  animation: winPulse 1s infinite;
+}
+
 .waiting-screen {
   display: flex;
   flex-direction: column;

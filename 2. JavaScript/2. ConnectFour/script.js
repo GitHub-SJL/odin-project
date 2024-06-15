@@ -27,7 +27,7 @@ function GameBoard() {
   const checkWin = (player) => {
     const token = player.token;
 
-    // 승리 조건 수평 체크
+    // 수평 체크
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col <= columns - 4; col++) {
         if (
@@ -36,12 +36,17 @@ function GameBoard() {
           board[row][col + 2].getValue() === token &&
           board[row][col + 3].getValue() === token
         ) {
-          return true;
+          return [
+            { row, col },
+            { row, col: col + 1 },
+            { row, col: col + 2 },
+            { row, col: col + 3 },
+          ];
         }
       }
     }
 
-    // 승리 조건 수직 체크
+    // 수직 체크
     for (let col = 0; col < columns; col++) {
       for (let row = 0; row <= rows - 4; row++) {
         if (
@@ -50,12 +55,17 @@ function GameBoard() {
           board[row + 2][col].getValue() === token &&
           board[row + 3][col].getValue() === token
         ) {
-          return true;
+          return [
+            { row, col },
+            { row: row + 1, col },
+            { row: row + 2, col },
+            { row: row + 3, col },
+          ];
         }
       }
     }
 
-    // 승리 조건 대각선 체크 (왼쪽 상단에서 오른쪽 하단)
+    // 대각선 체크 (왼쪽 상단에서 오른쪽 하단)
     for (let row = 0; row <= rows - 4; row++) {
       for (let col = 0; col <= columns - 4; col++) {
         if (
@@ -64,12 +74,17 @@ function GameBoard() {
           board[row + 2][col + 2].getValue() === token &&
           board[row + 3][col + 3].getValue() === token
         ) {
-          return true;
+          return [
+            { row, col },
+            { row: row + 1, col: col + 1 },
+            { row: row + 2, col: col + 2 },
+            { row: row + 3, col: col + 3 },
+          ];
         }
       }
     }
 
-    // 승리 조건 대각선 체크 (왼쪽 하단에서 오른쪽 상단)
+    // 대각선 체크 (왼쪽 하단에서 오른쪽 상단)
     for (let row = 3; row < rows; row++) {
       for (let col = 0; col <= columns - 4; col++) {
         if (
@@ -78,7 +93,12 @@ function GameBoard() {
           board[row - 2][col + 2].getValue() === token &&
           board[row - 3][col + 3].getValue() === token
         ) {
-          return true;
+          return [
+            { row, col },
+            { row: row - 1, col: col + 1 },
+            { row: row - 2, col: col + 2 },
+            { row: row - 3, col: col + 3 },
+          ];
         }
       }
     }
@@ -139,10 +159,11 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
       column,
       getActivePlayer().token
     );
+    const winPositions = board.checkWin(getActivePlayer());
 
-    if (board.checkWin(getActivePlayer())) {
+    if (winPositions) {
       console.log(`${getActivePlayer().name}이 승리했습니다!`);
-      return { winner: getActivePlayer().name, droppedTokenPosition };
+      return { winner: getActivePlayer().name, winPositions };
     }
 
     switchPlayerTurn();
@@ -163,7 +184,7 @@ function ScreenController() {
 
   let game;
 
-  const updateScreen = () => {
+  const updateScreen = (highlightPosition, winPositions) => {
     boardDiv.textContent = "";
 
     const board = game.getBoard();
@@ -183,6 +204,27 @@ function ScreenController() {
           cellButton.classList.add("final-1");
         } else if (cellValue === 2) {
           cellButton.classList.add("final-2");
+        }
+
+        if (
+          highlightPosition &&
+          rowIndex === highlightPosition.row &&
+          colIndex === highlightPosition.column
+        ) {
+          requestAnimationFrame(() => {
+            cellButton.classList.add("highlight");
+          });
+          setTimeout(() => {
+            cellButton.classList.remove("highlight");
+          }, 1000);
+        }
+
+        if (winPositions) {
+          winPositions.forEach((pos) => {
+            if (pos.row === rowIndex && pos.col === colIndex) {
+              cellButton.classList.add("win-highlight");
+            }
+          });
         }
         boardDiv.appendChild(cellButton);
       });
@@ -216,6 +258,12 @@ function ScreenController() {
         const finalCell = cells[row - 1];
         finalCell.classList.remove(activeClass);
         finalCell.classList.add(`final-${playerToken}`);
+        requestAnimationFrame(() => {
+          finalCell.classList.add("highlight"); // Add highlight class
+        });
+        setTimeout(() => {
+          finalCell.classList.remove("highlight"); // Remove highlight class after animation
+        }, 1000); // Adjust duration as needed
         callback();
       }
 
@@ -251,7 +299,7 @@ function ScreenController() {
       const result = game.playRound(selectedColumn);
       animationInProgress = false;
       if (!animationInProgress) {
-        updateScreen(result.droppedTokenPosition);
+        updateScreen(result.droppedTokenPosition, result.winPositions);
       }
       if (result.winner) {
         endGame(`${result.winner}이 승리했습니다!`);

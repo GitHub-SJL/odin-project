@@ -142,6 +142,7 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
   };
 
   const getActivePlayer = () => activePlayer;
+  const getPlayers = () => players; // 추가된 함수
 
   const printNewRound = () => {
     board.printBoard();
@@ -165,7 +166,7 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 
   printNewRound();
 
-  return { playRound, getActivePlayer, getBoard: board.getBoard };
+  return { playRound, getActivePlayer, getBoard: board.getBoard, getPlayers };
 }
 
 function ScreenController() {
@@ -174,8 +175,13 @@ function ScreenController() {
   const waitingScreen = document.querySelector(".waiting-screen");
   const startButton = document.querySelector("#startButton");
   const errorMessage = document.querySelector("#error-message");
+  const backToWaitingScreenButton = document.querySelector(
+    "#backToWaitingScreen"
+  );
 
   let game;
+  let playerOneName;
+  let playerTwoName;
 
   const updateScreen = (highlightPosition, winPositions) => {
     boardDiv.textContent = "";
@@ -183,7 +189,7 @@ function ScreenController() {
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
 
-    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+    playerTurnDiv.textContent = `${activePlayer.name} 차례`;
 
     board.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
@@ -270,12 +276,14 @@ function ScreenController() {
 
     const restartButton = document.createElement("button");
     restartButton.textContent = "다시 하기";
+    restartButton.classList.add("restart-button");
     restartButton.addEventListener("click", () => {
-      game = GameController();
+      game = GameController(playerOneName, playerTwoName); // 기존 플레이어 이름을 사용하여 새 게임 시작
       updateScreen();
-      playerTurnDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+      playerTurnDiv.textContent = `${game.getActivePlayer().name} 차례`;
       boardDiv.addEventListener("click", clickHandlerBoard);
       restartButton.remove();
+      backToWaitingScreenButton.style.display = "block";
     });
 
     playerTurnDiv.appendChild(restartButton);
@@ -302,8 +310,8 @@ function ScreenController() {
   }
 
   startButton.addEventListener("click", () => {
-    const playerOneName = document.querySelector("#playerOneName").value.trim();
-    const playerTwoName = document.querySelector("#playerTwoName").value.trim();
+    playerOneName = document.querySelector("#playerOneName").value.trim();
+    playerTwoName = document.querySelector("#playerTwoName").value.trim();
 
     if (!playerOneName || !playerTwoName) {
       errorMessage.textContent = "모든 플레이어 이름을 입력해주세요.";
@@ -322,9 +330,17 @@ function ScreenController() {
     waitingScreen.style.display = "none";
     playerTurnDiv.style.display = "block";
     boardDiv.style.display = "grid";
+    backToWaitingScreenButton.style.display = "block";
 
     updateScreen();
     boardDiv.addEventListener("click", clickHandlerBoard);
+  });
+
+  backToWaitingScreenButton.addEventListener("click", () => {
+    waitingScreen.style.display = "flex";
+    playerTurnDiv.style.display = "none";
+    boardDiv.style.display = "none";
+    backToWaitingScreenButton.style.display = "none";
   });
 
   updateScreen();

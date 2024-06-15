@@ -26,18 +26,21 @@
       <h1>Connect Four</h1>
       <div class="input-group">
         <img src="images/player1.png" alt="Player 1" class="player-icon" />
-        <input type="text" id="playerOneName" placeholder="Player 1 Name" />
+        <input type="text" id="playerOneName" placeholder="내 이름을 정해줘" />
       </div>
       <div class="input-group">
         <img src="images/player2.png" alt="Player 2" class="player-icon" />
-        <input type="text" id="playerTwoName" placeholder="Player 2 Name" />
+        <input type="text" id="playerTwoName" placeholder="내 이름을 정해줘" />
       </div>
-      <button id="startButton">Start Game</button>
+      <button id="startButton">게임시작</button>
       <div class="error-message" id="error-message"></div>
     </div>
     <div class="container">
       <div class="turn" style="display: none"></div>
       <div class="board" style="display: none"></div>
+      <button id="backToWaitingScreen" style="display: none">
+        초기화면
+      </button>
     </div>
     <script src="script.js"></script>
   </body>

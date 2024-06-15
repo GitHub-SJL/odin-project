@@ -52,7 +52,8 @@ html {
   text-align: center;
 }
 
-.waiting-screen button {
+.waiting-screen button,
+#backToWaitingScreen {
   width: 80%;
   padding: 10px;
   margin-top: 20px;
@@ -69,6 +70,10 @@ html {
   background-color: #45a049;
 }
 
+#backToWaitingScreen:hover {
+  background-color: #45a049;
+}
+
 .error-message {
   color: red;
   margin-top: 10px;
@@ -76,27 +81,27 @@ html {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  place-items: center;
   height: 100vh;
 }
 
 .board {
+  grid-row: 2 / 4;
   display: grid;
-  grid-template-columns: repeat(7, 50px);
+  grid-template-columns: repeat(7, 70px);
   gap: 5px;
   justify-content: center;
-  margin-top: 20px;
   padding: 10px;
   border-radius: 10px;
+  background-color: #bad7f2;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
+  width: 70px;
+  height: 70px;
+  border: 1px solid darkblue;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -104,6 +109,7 @@ html {
   font-size: 20px;
   cursor: pointer;
   background-color: #ffffff;
+  transition: border 1s, box-shadow 0.3s;
 }
 .turn {
   text-align: center;
@@ -125,13 +131,13 @@ html {
 }
 
 .cell.final-1 {
-  border: 2px solid white; /* or black */
+  border: 2px solid white;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .cell.final-2 {
-  border: 2px solid white; /* or black */
+  border: 2px solid white;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
@@ -152,6 +158,24 @@ html {
   animation: winPulse 1s infinite;
 }
 
+.restart-button {
+  width: 80%;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #bad7f2;
+  color: #36393b;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.restart-button:hover {
+  background-color: #a9cdee;
+}
+
 .waiting-screen {
   display: flex;
   flex-direction: column;
@@ -162,14 +186,46 @@ html {
 
 /* 미디어 쿼리 추가 */
 @media (max-width: 600px) {
+  .waiting-screen {
+    width: 100%;
+    height: 500px;
+    position: relative;
+  }
+
+  .waiting-screen h1 {
+    position: absolute;
+    top: 50px;
+  }
+
+  .input-group {
+    width: 90%;
+    margin: 5px 0;
+  }
+
+  .player-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .waiting-screen input,
+  .waiting-screen button {
+    width: 50%;
+  }
+
   .board {
-    grid-template-columns: repeat(7, 40px); /* 버튼 크기 조절 */
-    gap: 3px; /* 간격 조절 */
+    grid-template-columns: repeat(7, 45px); /* 모바일 셀 크기 */
+    gap: 10px;
+    padding: 10px;
   }
 
   .cell {
-    width: 40px;
-    height: 40px;
-    font-size: 16px; /* 글자 크기 조절 */
+    width: 45px;
+    height: 45px;
+    font-size: 14px;
+  }
+
+  .turn {
+    font-size: 30px;
+    margin: 20px 0;
   }
 }

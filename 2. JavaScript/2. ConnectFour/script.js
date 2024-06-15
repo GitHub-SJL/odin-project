@@ -170,6 +170,7 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 }
 
 function ScreenController() {
+  const containerDiv = document.querySelector(".container");
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
   const waitingScreen = document.querySelector(".waiting-screen");
@@ -283,7 +284,7 @@ function ScreenController() {
       playerTurnDiv.textContent = `${game.getActivePlayer().name} 차례`;
       boardDiv.addEventListener("click", clickHandlerBoard);
       restartButton.remove();
-      backToWaitingScreenButton.style.display = "block";
+      backToWaitingScreenButton.classList.add("show");
     });
 
     playerTurnDiv.appendChild(restartButton);
@@ -327,20 +328,33 @@ function ScreenController() {
 
     game = GameController(playerOneName, playerTwoName);
 
-    waitingScreen.style.display = "none";
-    playerTurnDiv.style.display = "block";
-    boardDiv.style.display = "grid";
-    backToWaitingScreenButton.style.display = "block";
+    waitingScreen.classList.remove("show");
+    setTimeout(() => {
+      waitingScreen.style.display = "none";
+      playerTurnDiv.style.display = "block";
+      boardDiv.style.display = "grid";
+      backToWaitingScreenButton.style.display = "block";
+      setTimeout(() => {
+        containerDiv.classList.add("show");
+      }, 10);
+    }, 500);
 
     updateScreen();
     boardDiv.addEventListener("click", clickHandlerBoard);
   });
 
   backToWaitingScreenButton.addEventListener("click", () => {
-    waitingScreen.style.display = "flex";
-    playerTurnDiv.style.display = "none";
-    boardDiv.style.display = "none";
-    backToWaitingScreenButton.style.display = "none";
+    containerDiv.classList.remove("show");
+
+    setTimeout(() => {
+      waitingScreen.style.display = "flex";
+      playerTurnDiv.style.display = "none";
+      boardDiv.style.display = "none";
+      backToWaitingScreenButton.style.display = "none";
+      setTimeout(() => {
+        waitingScreen.classList.add("show");
+      }, 10);
+    }, 500);
   });
 
   updateScreen();

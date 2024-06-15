@@ -11,6 +11,19 @@ html {
   background-color: #e0f7fa;
 }
 
+.waiting-screen,
+.container {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.waiting-screen.show,
+.container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
 .waiting-screen {
   display: flex;
   flex-direction: column;
@@ -106,6 +119,7 @@ html {
   background-color: #ffffff;
   transition: border 1s, box-shadow 0.3s;
 }
+
 .turn {
   text-align: center;
   font-size: 20px;
@@ -113,6 +127,7 @@ html {
   color: #00796b;
   font-weight: bold;
 }
+
 .cell.active-1,
 .cell.final-1 {
   background-image: url("images/player1.png");
@@ -167,6 +182,7 @@ html {
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .restart-button:hover {
   background-color: #a9cdee;
 }

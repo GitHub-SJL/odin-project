@@ -157,6 +157,7 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 
     if (board.checkWin(getActivePlayer())) {
       console.log(`${getActivePlayer().name}이 승리했습니다!`);
+
       return;
     }
 
@@ -191,15 +192,50 @@ function ScreenController() {
     playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
 
     // board 랜더
-    board.forEach((row) => {
-      row.forEach((cell, index) => {
+    board.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
         const cellButton = document.createElement("button");
         cellButton.classList.add("cell");
-        cellButton.dataset.column = index;
-        cellButton.textContent = cell.getValue();
+        cellButton.dataset.row = rowIndex;
+        cellButton.dataset.column = colIndex;
+
+        // cell 값에 따라 ui 변경
+        const cellValue = cell.getValue();
+        if (cellValue === 1) {
+          cellButton.classList.add("final-1");
+        } else if (cellValue === 2) {
+          cellButton.classList.add("final-2");
+        }
+
         boardDiv.appendChild(cellButton);
       });
     });
+  };
+
+  const animateDrop = (column, callback) => {
+    const cells = Array.from(
+      boardDiv.querySelectorAll(`.cell[data-column="${column}"]`)
+    );
+
+    let row = 0;
+    const playerToken = game.getActivePlayer().token;
+    const activeClass = `active-${playerToken}`;
+
+    const dropAnimation = setInterval(() => {
+      if (row > 0) {
+        cells[row - 1].classList.remove(activeClass);
+      }
+
+      if (row < cells.length) {
+        cells[row].classList.add(activeClass);
+      } else {
+        clearInterval(dropAnimation);
+        cells[row - 1].classList.remove(activeClass);
+        cells[row - 1].classList.add(`final-${playerToken}`);
+        callback();
+      }
+      row++;
+    }, 100); // 100ms 간격으로 애니메이션 실행
   };
 
   function clickHandlerBoard(e) {
@@ -207,8 +243,15 @@ function ScreenController() {
 
     if (!selectedColumn) return;
 
-    game.playRound(selectedColumn);
-    updateScreen();
+    let animationInProgress = true;
+
+    animateDrop(selectedColumn, () => {
+      game.playRound(selectedColumn);
+      animationInProgress = false;
+      if (!animationInProgress) {
+        updateScreen();
+      }
+    });
   }
 
   boardDiv.addEventListener("click", clickHandlerBoard);

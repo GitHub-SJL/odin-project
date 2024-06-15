@@ -21,6 +21,7 @@ function GameBoard() {
 
     const lowestRow = availableCells.length - 1;
     board[lowestRow][column].addToken(player);
+    return { row: lowestRow, column };
   };
 
   const checkWin = (player) => {
@@ -130,18 +131,23 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
   };
 
   const playRound = (column) => {
-    console.log(`${getActivePlayer().name}의 토큰이 ${column}열에 떨어집니다...`);
+    console.log(
+      `${getActivePlayer().name}의 토큰이 ${column}열에 떨어집니다...`
+    );
 
-    board.dropToken(column, getActivePlayer().token);
+    const droppedTokenPosition = board.dropToken(
+      column,
+      getActivePlayer().token
+    );
 
     if (board.checkWin(getActivePlayer())) {
       console.log(`${getActivePlayer().name}이 승리했습니다!`);
-      return `${getActivePlayer().name}이 승리했습니다!`;
+      return { winner: getActivePlayer().name, droppedTokenPosition };
     }
 
     switchPlayerTurn();
     printNewRound();
-    return null;
+    return { droppedTokenPosition };
   };
 
   printNewRound();
@@ -150,9 +156,12 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
 }
 
 function ScreenController() {
-  let game = GameController();
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
+  const waitingScreen = document.querySelector(".waiting-screen");
+  const startButton = document.querySelector("#startButton");
+
+  let game;
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -175,17 +184,20 @@ function ScreenController() {
         } else if (cellValue === 2) {
           cellButton.classList.add("final-2");
         }
-        cellButton.textContent = cellValue;
         boardDiv.appendChild(cellButton);
       });
     });
   };
 
   const animateDrop = (column, callback) => {
-    let cells = Array.from(boardDiv.querySelectorAll(`.cell[data-column="${column}"]`));
+    let cells = Array.from(
+      boardDiv.querySelectorAll(`.cell[data-column="${column}"]`)
+    );
 
     cells = cells.filter(
-      (cell) => !cell.classList.contains("final-1") && !cell.classList.contains("final-2")
+      (cell) =>
+        !cell.classList.contains("final-1") &&
+        !cell.classList.contains("final-2")
     );
 
     let row = 0;
@@ -201,8 +213,9 @@ function ScreenController() {
         cells[row].classList.add(activeClass);
       } else {
         clearInterval(dropAnimation);
-        cells[row - 1].classList.remove(activeClass);
-        cells[row - 1].classList.add(`final-${playerToken}`);
+        const finalCell = cells[row - 1];
+        finalCell.classList.remove(activeClass);
+        finalCell.classList.add(`final-${playerToken}`);
         callback();
       }
 
@@ -235,18 +248,32 @@ function ScreenController() {
     let animationInProgress = true;
 
     animateDrop(selectedColumn, () => {
-      const winnerMessage = game.playRound(selectedColumn);
+      const result = game.playRound(selectedColumn);
       animationInProgress = false;
       if (!animationInProgress) {
-        updateScreen();
+        updateScreen(result.droppedTokenPosition);
       }
-      if (winnerMessage) {
-        endGame(winnerMessage);
+      if (result.winner) {
+        endGame(`${result.winner}이 승리했습니다!`);
       }
     });
   }
 
-  boardDiv.addEventListener("click", clickHandlerBoard);
+  startButton.addEventListener("click", () => {
+    const playerOneName =
+      document.querySelector("#playerOneName").value || "Player 1";
+    const playerTwoName =
+      document.querySelector("#playerTwoName").value || "Player 2";
+
+    game = GameController(playerOneName, playerTwoName);
+
+    waitingScreen.style.display = "none";
+    playerTurnDiv.style.display = "block";
+    boardDiv.style.display = "grid";
+
+    updateScreen();
+    boardDiv.addEventListener("click", clickHandlerBoard);
+  });
 
   updateScreen();
 }

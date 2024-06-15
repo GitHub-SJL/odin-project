@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connect Four</title>
     <link
-      href="
-https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css
-"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -16,7 +14,6 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,9 +23,17 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css
   </head>
   <body>
     <div class="waiting-screen">
-      <input type="text" id="playerOneName" placeholder="Player 1 Name" />
-      <input type="text" id="playerTwoName" placeholder="Player 2 Name" />
+      <h1>Connect Four</h1>
+      <div class="input-group">
+        <img src="images/player1.png" alt="Player 1" class="player-icon" />
+        <input type="text" id="playerOneName" placeholder="Player 1 Name" />
+      </div>
+      <div class="input-group">
+        <img src="images/player2.png" alt="Player 2" class="player-icon" />
+        <input type="text" id="playerTwoName" placeholder="Player 2 Name" />
+      </div>
       <button id="startButton">Start Game</button>
+      <div class="error-message" id="error-message"></div>
     </div>
     <div class="container">
       <div class="turn" style="display: none"></div>

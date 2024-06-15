@@ -110,7 +110,6 @@ function GameBoard() {
     const boardWithCellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
-
   };
 
   return { getBoard, dropToken, checkWin, printBoard };
@@ -149,8 +148,6 @@ function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
   };
 
   const playRound = (column) => {
- 
-
     const droppedTokenPosition = board.dropToken(
       column,
       getActivePlayer().token
@@ -176,6 +173,7 @@ function ScreenController() {
   const boardDiv = document.querySelector(".board");
   const waitingScreen = document.querySelector(".waiting-screen");
   const startButton = document.querySelector("#startButton");
+  const errorMessage = document.querySelector("#error-message");
 
   let game;
 
@@ -255,10 +253,10 @@ function ScreenController() {
         finalCell.classList.remove(activeClass);
         finalCell.classList.add(`final-${playerToken}`);
         requestAnimationFrame(() => {
-          finalCell.classList.add("highlight"); // Add highlight class
+          finalCell.classList.add("highlight");
         });
         setTimeout(() => {
-          finalCell.classList.remove("highlight"); // Remove highlight class after animation
+          finalCell.classList.remove("highlight");
         }, 1000); // Adjust duration as needed
         callback();
       }
@@ -304,10 +302,20 @@ function ScreenController() {
   }
 
   startButton.addEventListener("click", () => {
-    const playerOneName =
-      document.querySelector("#playerOneName").value || "Player 1";
-    const playerTwoName =
-      document.querySelector("#playerTwoName").value || "Player 2";
+    const playerOneName = document.querySelector("#playerOneName").value.trim();
+    const playerTwoName = document.querySelector("#playerTwoName").value.trim();
+
+    if (!playerOneName || !playerTwoName) {
+      errorMessage.textContent = "모든 플레이어 이름을 입력해주세요.";
+      return;
+    }
+
+    if (playerOneName === playerTwoName) {
+      errorMessage.textContent = "플레이어 이름이 동일할 수 없습니다.";
+      return;
+    }
+
+    errorMessage.textContent = "";
 
     game = GameController(playerOneName, playerTwoName);
 
@@ -321,5 +329,4 @@ function ScreenController() {
 
   updateScreen();
 }
-
 ScreenController();

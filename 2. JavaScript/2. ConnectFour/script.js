@@ -206,17 +206,24 @@ function ScreenController() {
         } else if (cellValue === 2) {
           cellButton.classList.add("final-2");
         }
-
+        cellButton.textContent = cellValue;
         boardDiv.appendChild(cellButton);
       });
     });
   };
 
   const animateDrop = (column, callback) => {
-    const cells = Array.from(
+    let cells = Array.from(
       boardDiv.querySelectorAll(`.cell[data-column="${column}"]`)
     );
+    // 플레이어가 이미 놓은 cell들은 애니메이션 제외
+    cells = cells.filter(
+      (cell) =>
+        !cell.classList.contains("final-1") &&
+        !cell.classList.contains("final-2")
+    );
 
+    console.log(cells, "cells");
     let row = 0;
     const playerToken = game.getActivePlayer().token;
     const activeClass = `active-${playerToken}`;
@@ -234,6 +241,10 @@ function ScreenController() {
         cells[row - 1].classList.add(`final-${playerToken}`);
         callback();
       }
+
+      cells.forEach((cell, index) => {
+        console.log(`Cell [${index}]:`, cell.classList.toString());
+      });
       row++;
     }, 100); // 100ms 간격으로 애니메이션 실행
   };

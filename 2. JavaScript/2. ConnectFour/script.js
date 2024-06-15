@@ -1,18 +1,10 @@
-/*
- ** Gameboard는 보드의 상태를 나타냅니다
- ** 각 칸은 나중에 정의될 Cell을 보유합니다
- ** 그리고 우리는 dropToken 메서드를 노출하여 칸에 셀을 추가할 수 있게 합니다
- */
-
 function GameBoard() {
   const rows = 6;
   const columns = 7;
   const board = [];
 
-  //   게임 보드의 상태를 나타내는 2차원 배열을 생성합니다
   for (let i = 0; i < rows; i++) {
     board[i] = [];
-
     for (let j = 0; j < columns; j++) {
       board[i].push(Cell());
     }
@@ -20,8 +12,6 @@ function GameBoard() {
 
   const getBoard = () => board;
 
-  // 토큰을 떨어뜨리려면 선택한 열의 최하단 지점을 찾아야 합니다.
-  // 그런 다음 해당 셀의 값을 플레이어 번호로 변경해야 합니다.
   const dropToken = (column, player) => {
     const availableCells = board
       .filter((row) => row[column].getValue() === 0)
@@ -29,8 +19,8 @@ function GameBoard() {
 
     if (!availableCells.length) return;
 
-    const lowesRow = availableCells.length - 1;
-    board[lowesRow][column].addToken(player);
+    const lowestRow = availableCells.length - 1;
+    board[lowestRow][column].addToken(player);
   };
 
   const checkWin = (player) => {
@@ -38,14 +28,15 @@ function GameBoard() {
 
     // 승리 조건 수평 체크
     for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < columns - 4; col++) {
+      for (let col = 0; col <= columns - 4; col++) {
         if (
           board[row][col].getValue() === token &&
           board[row][col + 1].getValue() === token &&
           board[row][col + 2].getValue() === token &&
           board[row][col + 3].getValue() === token
-        )
+        ) {
           return true;
+        }
       }
     }
 
@@ -57,8 +48,9 @@ function GameBoard() {
           board[row + 1][col].getValue() === token &&
           board[row + 2][col].getValue() === token &&
           board[row + 3][col].getValue() === token
-        )
+        ) {
           return true;
+        }
       }
     }
 
@@ -70,11 +62,13 @@ function GameBoard() {
           board[row + 1][col + 1].getValue() === token &&
           board[row + 2][col + 2].getValue() === token &&
           board[row + 3][col + 3].getValue() === token
-        )
+        ) {
           return true;
+        }
       }
     }
-    // 승리 조건 대각선 체크 (왼쪽 하단 에서 오른쪽 상단)
+
+    // 승리 조건 대각선 체크 (왼쪽 하단에서 오른쪽 상단)
     for (let row = 3; row < rows; row++) {
       for (let col = 0; col <= columns - 4; col++) {
         if (
@@ -82,17 +76,15 @@ function GameBoard() {
           board[row - 1][col + 1].getValue() === token &&
           board[row - 2][col + 2].getValue() === token &&
           board[row - 3][col + 3].getValue() === token
-        )
+        ) {
           return true;
+        }
       }
     }
 
     return false;
   };
 
-  // 이 메서드는 보드를 콘솔에 출력하는 데 사용됩니다.
-  // 플레이할 때 각 턴 후에 보드가 어떻게 생겼는지 보는 것이 도움이 되지만,
-  // UI를 구축한 후에는 필요하지 않습니다.
   const printBoard = () => {
     const boardWithCellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
@@ -100,15 +92,10 @@ function GameBoard() {
 
     console.log(boardWithCellValues);
   };
+
   return { getBoard, dropToken, checkWin, printBoard };
 }
 
-/*
- ** Cell은 보드의 한 "칸"을 나타내며 다음 중 하나를 가질 수 있습니다.
- ** 0: 칸에 토큰이 없음,
- ** 1: 플레이어 1의 토큰,
- ** 2: 플레이어 2의 토큰
- */
 function Cell() {
   let value = 0;
 
@@ -124,74 +111,57 @@ function Cell() {
 function GameController(playerOneName = "Player1", playerTwoName = "Player2") {
   const board = GameBoard();
 
-  const player = [
-    {
-      name: playerOneName,
-      token: 1,
-    },
-    {
-      name: playerTwoName,
-      token: 2,
-    },
+  const players = [
+    { name: playerOneName, token: 1 },
+    { name: playerTwoName, token: 2 },
   ];
 
-  let activePlayer = player[0];
+  let activePlayer = players[0];
 
   const switchPlayerTurn = () => {
-    activePlayer = activePlayer === player[0] ? player[1] : player[0];
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
   const getActivePlayer = () => activePlayer;
 
   const printNewRound = () => {
     board.printBoard();
-    console.log(`${getActivePlayer().name} 차례`);
+    console.log(`${getActivePlayer().name}'s turn`);
   };
 
   const playRound = (column) => {
-    console.log(
-      `${getActivePlayer().name}의 토큰이 ${column}행에 떨어집니다...`
-    );
+    console.log(`${getActivePlayer().name}의 토큰이 ${column}열에 떨어집니다...`);
 
     board.dropToken(column, getActivePlayer().token);
 
     if (board.checkWin(getActivePlayer())) {
       console.log(`${getActivePlayer().name}이 승리했습니다!`);
-
-      return;
+      return `${getActivePlayer().name}이 승리했습니다!`;
     }
 
     switchPlayerTurn();
     printNewRound();
+    return null;
   };
 
-  // 초기 게임 시작 메시지
   printNewRound();
 
-  return {
-    playRound,
-    getActivePlayer,
-    getBoard: board.getBoard,
-  };
+  return { playRound, getActivePlayer, getBoard: board.getBoard };
 }
 
 function ScreenController() {
-  const game = GameController();
+  let game = GameController();
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
 
   const updateScreen = () => {
-    // board 초기화
     boardDiv.textContent = "";
 
-    // 새로운 board와 player 턴을 가져오기
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
 
-    // player 턴 표시
     playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
 
-    // board 랜더
     board.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         const cellButton = document.createElement("button");
@@ -199,7 +169,6 @@ function ScreenController() {
         cellButton.dataset.row = rowIndex;
         cellButton.dataset.column = colIndex;
 
-        // cell 값에 따라 ui 변경
         const cellValue = cell.getValue();
         if (cellValue === 1) {
           cellButton.classList.add("final-1");
@@ -213,17 +182,12 @@ function ScreenController() {
   };
 
   const animateDrop = (column, callback) => {
-    let cells = Array.from(
-      boardDiv.querySelectorAll(`.cell[data-column="${column}"]`)
-    );
-    // 플레이어가 이미 놓은 cell들은 애니메이션 제외
+    let cells = Array.from(boardDiv.querySelectorAll(`.cell[data-column="${column}"]`));
+
     cells = cells.filter(
-      (cell) =>
-        !cell.classList.contains("final-1") &&
-        !cell.classList.contains("final-2")
+      (cell) => !cell.classList.contains("final-1") && !cell.classList.contains("final-2")
     );
 
-    console.log(cells, "cells");
     let row = 0;
     const playerToken = game.getActivePlayer().token;
     const activeClass = `active-${playerToken}`;
@@ -242,11 +206,25 @@ function ScreenController() {
         callback();
       }
 
-      cells.forEach((cell, index) => {
-        console.log(`Cell [${index}]:`, cell.classList.toString());
-      });
       row++;
-    }, 100); // 100ms 간격으로 애니메이션 실행
+    }, 100);
+  };
+
+  const endGame = (winnerMessage) => {
+    playerTurnDiv.textContent = winnerMessage;
+
+    const restartButton = document.createElement("button");
+    restartButton.textContent = "다시 하기";
+    restartButton.addEventListener("click", () => {
+      game = GameController();
+      updateScreen();
+      playerTurnDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+      boardDiv.addEventListener("click", clickHandlerBoard);
+      restartButton.remove();
+    });
+
+    playerTurnDiv.appendChild(restartButton);
+    boardDiv.removeEventListener("click", clickHandlerBoard);
   };
 
   function clickHandlerBoard(e) {
@@ -257,10 +235,13 @@ function ScreenController() {
     let animationInProgress = true;
 
     animateDrop(selectedColumn, () => {
-      game.playRound(selectedColumn);
+      const winnerMessage = game.playRound(selectedColumn);
       animationInProgress = false;
       if (!animationInProgress) {
         updateScreen();
+      }
+      if (winnerMessage) {
+        endGame(winnerMessage);
       }
     });
   }

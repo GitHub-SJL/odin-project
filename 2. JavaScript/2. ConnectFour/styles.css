@@ -48,13 +48,13 @@
 
 @keyframes winPulse {
   0% {
-    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5); 
+    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5);
   }
   50% {
-    box-shadow: 0 0 20px rgba(128, 0, 128, 1); 
+    box-shadow: 0 0 20px rgba(128, 0, 128, 1);
   }
   100% {
-    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5); 
+    box-shadow: 0 0 10px rgba(128, 0, 128, 0.5);
   }
 }
 
@@ -68,4 +68,18 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+/* 미디어 쿼리 추가 */
+@media (max-width: 600px) {
+  .board {
+    grid-template-columns: repeat(7, 35px); /* 버튼 크기 조절 */
+    gap: 3px; /* 간격 조절 */
+  }
+
+  .cell {
+    width: 35px;
+    height: 35px;
+    font-size: 16px; /* 글자 크기 조절 */
+  }
 }

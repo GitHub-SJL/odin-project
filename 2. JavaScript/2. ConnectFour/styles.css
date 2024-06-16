@@ -29,9 +29,8 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
-  width: 80%;
-  max-width: 400px;
+  height: 55%;
+  width: 25%;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -86,8 +85,9 @@ html {
   color: red;
   margin-top: 10px;
   font-size: 14px;
+  height: 20px;
+  line-height: 20px;
 }
-
 .container {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -197,12 +197,76 @@ html {
   background-color: #45a049;
 }
 
-.waiting-screen {
+/* 모달 스타일 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  position: relative;
+}
+
+.modal-content img {
+  width: 350px; /* 이미지 크기 조절 */
+  height: 350px;
+  display: block;
+  margin: 0 auto 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-content img:hover {
+  transform: scale(1.1); /* 이미지 강조 효과 */
+}
+
+.modal-content h2 {
+  font-size: 24px;
+  color: #00796b; /* 글자색 설정 */
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* 미디어 쿼리 추가 */
@@ -212,12 +276,6 @@ html {
     height: 400px;
     position: relative;
   }
-
-  .waiting-screen h1 {
-    position: absolute;
-    top: 50px;
-  }
-
   .input-group {
     width: 90%;
     margin: 5px 0;
@@ -226,11 +284,6 @@ html {
   .player-icon {
     width: 45px;
     height: 45px;
-  }
-
-  .waiting-screen input,
-  .waiting-screen button {
-    width: 50%;
   }
 
   .board {
@@ -248,5 +301,29 @@ html {
   .turn {
     font-size: 30px;
     margin: 20px 0;
+  }
+
+  .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-55%, -55%);
+    width: 300px;
+    max-width: none;
+    padding: 15px;
+  }
+
+  .modal-content img {
+    width: 250px;
+    height: 250px;
+  }
+
+  .modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .modal-content p {
+    font-size: 16px;
   }
 }

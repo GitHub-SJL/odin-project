@@ -179,10 +179,29 @@ function ScreenController() {
   const backToWaitingScreenButton = document.querySelector(
     "#backToWaitingScreen"
   );
+  const gameDescriptionButton = document.querySelector(
+    "#gameDescriptionButton"
+  );
+  const gameDescriptionModal = document.querySelector("#gameDescriptionModal");
+  const closeModalButton = document.querySelector(".close");
 
   let game;
   let playerOneName;
   let playerTwoName;
+
+  gameDescriptionButton.addEventListener("click", () => {
+    gameDescriptionModal.style.display = "block";
+  });
+
+  closeModalButton.addEventListener("click", () => {
+    gameDescriptionModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === gameDescriptionModal) {
+      gameDescriptionModal.style.display = "none";
+    }
+  });
 
   const updateScreen = (highlightPosition, winPositions) => {
     boardDiv.textContent = "";
@@ -269,7 +288,7 @@ function ScreenController() {
       }
 
       row++;
-    }, 100);
+    }, 70);
   };
 
   const endGame = (winnerMessage) => {

@@ -24,24 +24,59 @@
   <body>
     <div class="waiting-screen show">
       <h1>Connect Four</h1>
-      <div class="input-group">
-        <img src="images/player1.png" alt="Player 1" class="player-icon" />
-        <input type="text" id="playerOneName" placeholder="내 이름을 정해줘" />
+
+      <div class="input-player">
+        <div class="input-group">
+          <img src="images/player1.png" alt="Player 1" class="player-icon" />
+          <input
+            type="text"
+            id="playerOneName"
+            placeholder="내 이름을 정해줘"
+          />
+        </div>
+        <div class="input-group">
+          <img src="images/player2.png" alt="Player 2" class="player-icon" />
+          <input
+            type="text"
+            id="playerTwoName"
+            placeholder="내 이름을 정해줘"
+          />
+        </div>
       </div>
-      <div class="input-group">
-        <img src="images/player2.png" alt="Player 2" class="player-icon" />
-        <input type="text" id="playerTwoName" placeholder="내 이름을 정해줘" />
+      <div class="gameButton">
+        <button id="startButton">게임시작</button>
+        <button id="gameDescriptionButton">게임 설명</button>
       </div>
-      <button id="startButton">게임시작</button>
       <div class="error-message" id="error-message"></div>
     </div>
     <div class="container">
       <div class="turn" style="display: none"></div>
       <div class="board" style="display: none"></div>
-      <button id="backToWaitingScreen" style="display: none">
-        초기화면
-      </button>
+      <button id="backToWaitingScreen" style="display: none">초기화면</button>
     </div>
+
+    <!-- 게임 설명 모달 -->
+    <div id="gameDescriptionModal" class="modal">
+      <div class="modal-content">
+        <img src="images/gameInfo.png" />
+        <span class="close">&times;</span>
+        <h2>게임 설명</h2>
+        <p>
+          Connect Four는 2인용 보드 게임입니다. <br />게임의 목표는 자신의
+          캐릭터를 가로, 세로 또는 대각선으로 연속해서 4개를 나란히 놓는
+          것입니다.
+        </p>
+        <p>
+          1. 각 플레이어는 번갈아가며 자신의 색 캐릭터를 하나씩 떨어뜨립니다.
+        </p>
+        <p>2. 캐릭터는 맨 아래 또는 다른 캐릭터 위에 쌓이게 됩니다.</p>
+        <p>
+          3. 먼저 가로, 세로 또는 대각선으로 4개의 캐릭터를 연결하는 플레이어가
+          승리합니다.
+        </p>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

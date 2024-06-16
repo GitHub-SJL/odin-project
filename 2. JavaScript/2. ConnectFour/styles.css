@@ -270,7 +270,7 @@ html {
 }
 
 /* 미디어 쿼리 추가 */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .waiting-screen {
     width: 80%;
     height: 400px;
@@ -279,6 +279,10 @@ html {
   .input-group {
     width: 90%;
     margin: 5px 0;
+  }
+
+  .input-group input {
+    max-width: 150px;
   }
 
   .player-icon {
@@ -308,22 +312,22 @@ html {
     top: 50%;
     left: 50%;
     transform: translate(-55%, -55%);
-    width: 300px;
-    max-width: none;
+    /* width: 300px; */
+    max-width: 250px;
+    max-height: 500px;
     padding: 15px;
   }
 
   .modal-content img {
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
   }
 
   .modal-content h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 16px;
   }
 
   .modal-content p {
-    font-size: 16px;
+    font-size: 12px;
   }
 }
